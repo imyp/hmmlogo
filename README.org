@@ -1,5 +1,5 @@
-#+title:HMM logos
-* HMM logos for protein families
+#+title:Sequence logos for profile hidden Markov models
+* Introduction
 
   [[https://pfam.xfam.org/][Pfam]] is a protein database that collects information about protein
   families and domains.  Profile hidden Markov models (HMMs) are used
