@@ -34,6 +34,5 @@ def result():
     hmm = get_fig(fig, format='png')
     
     return render_template('result.html', hmm=hmm)
-
 if __name__ == '__main__':
     app.run(debug=True)
