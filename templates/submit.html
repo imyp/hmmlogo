@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Submit{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <p>Enter a Pfam accession ID.</p>
+  <form method="post">
+    <label for="accession">Pfam accession</label>
+    <input name="accession" id="accession" required>
+    <label for="start">Start</label>
+    <input type="number" name="start" id="start">
+    <label for="end">End</label>
+    <input type="number" name="end" id="end">
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}

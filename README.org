@@ -1,0 +1,29 @@
+#+title:HMM logos
+* HMM logos for protein families
+
+  [[https://pfam.xfam.org/][Pfam]] is a protein database that collects information about protein
+  families and domains.  Profile hidden Markov models (HMMs) are used
+  to classify the protein families and hold information about
+  conservation and variability within family members.  Sequence logos
+  are graphical representations of biological sequence alignments or
+  HMMs.
+
+* Process
+
+  The process of visualizing a sequence logo from a pfam accession
+  number requires the following steps:
+
+  - downloading the hmm from pfam.xfam.org
+
+  - piping through hmmlogo to create logo
+
+  - reading logo into pandas dataframe
+
+  - plotting the logo to a matplotlib figure
+
+  - saving figure as to file-like object
+
+    
+
+    
+
