@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="hmmlogo",
-    version="0.0.2",
+    version="0.0.3",
     author="Inti Manuel Yabar-Pagaza",
     author_email="intipagaza@live.dk",
     description="Package to plot logos for profile hidden Markov models.",
@@ -13,6 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/imyp/hmmlogo",
     packages=setuptools.find_packages(),
+    include_package_data=True,
     install_requires=[
         'matplotlib',
         'requests',
