@@ -1,5 +1,8 @@
+# hmmlogo
+[![Documentation Status](https://readthedocs.org/projects/hmmlogo/badge/?version=latest)](https://hmmlogo.readthedocs.io/en/latest/?badge=latest)
 
-# Table of Contents
+
+## Table of Contents
 
 1.  [Introduction](#org61820c1)
 
