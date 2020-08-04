@@ -17,7 +17,6 @@ It becomes easy to visualize `profile hidden Markov models (pHMMs) <https://en.w
    :caption: Contents:
 
    install
-   api
 
 Indices and tables
 ==================
