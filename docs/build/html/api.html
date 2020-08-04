@@ -15,7 +15,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Installation of hmmlogo" href="install.html" />
+    <link rel="prev" title="Installation" href="install.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -32,58 +32,11 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="module-hmmlogo">
-<span id="developer-interface"></span><span id="api"></span><h1>Developer Interface<a class="headerlink" href="#module-hmmlogo" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="hmmlogo">
-<h2>hmmlogo<a class="headerlink" href="#hmmlogo" title="Permalink to this headline">¶</a></h2>
-<p>This package is used to visualize profile hidden Markov models.
-Basic usage:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">hmmlogo</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">hmmlogo</span><span class="o">.</span><span class="n">show_logo</span><span class="p">(</span><span class="s1">&#39;PF00010&#39;</span><span class="p">)</span>
-<span class="go">&lt;Figure Object&gt;</span>
-</pre></div>
-</div>
-</div>
-<span class="target" id="module-hmmlogo.api"></span><div class="section" id="hmmlogo-api">
+  <div class="section" id="module-hmmlogo.api">
+<span id="developer-interface"></span><span id="api"></span><h1>Developer Interface<a class="headerlink" href="#module-hmmlogo.api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="hmmlogo-api">
 <h2>hmmlogo.api<a class="headerlink" href="#hmmlogo-api" title="Permalink to this headline">¶</a></h2>
 <p>This module implements the hmmlogo API.</p>
-<dl class="py function">
-<dt id="hmmlogo.api.get_hmm">
-<code class="sig-prename descclassname">hmmlogo.api.</code><code class="sig-name descname">get_hmm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">accession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hmmlogo.api.get_hmm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Constructs a <code class="xref py py-class docutils literal notranslate"><span class="pre">HiddenMarkovModel</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>accession</strong> – Pfam accession number for protein family.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">HiddenMarkovModel</span></code> object</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>hmmlogo.HiddenMarkovModel</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="hmmlogo.api.get_logo">
-<code class="sig-prename descclassname">hmmlogo.api.</code><code class="sig-name descname">get_logo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">accession</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hmmlogo.api.get_logo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Constructs a <code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceLogo</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>accession</strong> – Pfam accession number for protein family.</p></li>
-<li><p><strong>**kwargs</strong> – Optional arguments for <cite>SequenceLogo</cite>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceLogo</span></code> object</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>hmmlogo.SequenceLogo</p>
-</dd>
-</dl>
-</dd></dl>
-
 </div>
 </div>
 
@@ -106,9 +59,8 @@ Basic usage:</p>
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation of hmmlogo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#hmmlogo">hmmlogo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#hmmlogo-api">hmmlogo.api</a></li>
 </ul>
 </li>
@@ -118,7 +70,7 @@ Basic usage:</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="install.html" title="previous chapter">Installation of hmmlogo</a></li>
+      <li>Previous: <a href="install.html" title="previous chapter">Installation</a></li>
   </ul></li>
 </ul>
 </div>
