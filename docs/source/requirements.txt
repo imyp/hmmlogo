@@ -1,0 +1,11 @@
+Pygments
+setuptools
+docutils
+mock
+pillow
+alabaster
+commonmark
+recommonmark
+sphinx
+sphinx-rtd-theme
+readthedocs-sphinx-ext
