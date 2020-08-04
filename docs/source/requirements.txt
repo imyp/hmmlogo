@@ -6,6 +6,6 @@ pillow
 alabaster
 commonmark
 recommonmark
-sphinx
+Sphinx==3.1.2
 sphinx-rtd-theme
 readthedocs-sphinx-ext
