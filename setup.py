@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="hmmlogo",
-    version="0.0.3",
+    version="0.0.4",
     author="Inti Manuel Yabar-Pagaza",
     author_email="intipagaza@live.dk",
     description="Package to plot logos for profile hidden Markov models.",
