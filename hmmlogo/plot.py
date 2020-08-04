@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from json import load
-from base64 import b64encode
-from io import BytesIO, StringIO
+import json
+import io 
+import base64
 from os.path import dirname, abspath, join
 
 import matplotlib.pyplot as plt
@@ -10,68 +10,79 @@ import numpy as np
 
 from matplotlib.path import Path
 from matplotlib.patches import PathPatch
-from .hmm import HiddenMarkovModel
+from .hmm import HiddenMarkovModelLogo
 
+# Paths for alphabet and colormap
 here = dirname(abspath(__file__))
 alph_path = join(here,'alph.json')
 cmap_path = join(here,'cmap.json')
 
-class LogoPlot:
+class LogoPlot(HiddenMarkovModelLogo):
+    """
+    Visualization of a profile hidden Markov model.
+    """
+    def __init__(self, accession, alph=alph_path, cmap=cmap_path):
+        super().__init__(accession)
+        with open(alph, 'r') as f:
+            self.alph = json.load(f)
+        with open(cmap, 'r') as f:
+            self.cmap = json.load(f)
+        self.fig, self.ax = self.initialize_plot()
+        self.plot_heights(self.heights)
+        self.plot_indelinfo(self.indelinfo)
 
-    def __init__(self, accession, start=None, end=None, alph=alph_path, cmap=cmap_path):
-        self.accession = accession
-        self.start = start
-        self.end = end
-        self.hmm = HiddenMarkovModel(accession)
-        self.logo = self.hmm.logo_df
-        self.partial_logo = self.logo.loc[start:end]
-        self.alph = self.read_json(alph)
-        self.cmap = self.read_json(cmap)
-        self.get_logoplot()
-
-    def get_logoplot(self):
-        self.fig, self.ax = plt.subplots(figsize=(len(self.partial_logo)/4,2), tight_layout=True)
-        self.ax = self.plot_logo()
-
-    def plot_logo(self):
+    def initialize_plot(self):
+        length = len(self.heights)
+        fig, ax = plt.subplots(figsize=(length/2, 7))
+        ax.set_xlim(0, length)
+        return fig, ax
+    
+    def plot_heights(self, heights):
         y_max = 0
-        for x_offset, (_, series) in enumerate(self.partial_logo.iterrows()):
-            self.plot_column(series, x_offset)
-            y_max = max(y_max, series.sum())
-        self.ax.axis([0, len(self.partial_logo), 0, y_max])
-        self.ax.set_xticks(np.arange(len(self.partial_logo)+0.5))
-        self.ax.set_xticklabels(self.partial_logo.index)
-
-    def plot_column(self, series, x_offset):
+        for x_offset, (_, profile_heights) in enumerate(heights.iterrows()):
+            self.plot_profile(profile_heights, x_offset)
+            y_max = max(y_max, profile_heights.sum())
+        self.ax.set_ylim(0, y_max)
+    
+    def plot_profile(self, profile, x_offset):
         y_offset = 0
-        series = series.sort_values()
-        for let, y_scale in series.iteritems():
-            patch = self.plot_letter(let, scale=(1, y_scale), offset=(x_offset, y_offset))
+        profile = profile.sort_values()
+        for aminoacid, height in profile.iteritems():
+            patch = self.get_aa_patch(
+                aminoacid, 
+                [1, height], 
+                [x_offset, y_offset],
+            )
             self.ax.add_patch(patch)
-            y_offset += y_scale
-
-    def plot_letter(self, let, scale=(1, 1), offset=(0,0)):
-        path = Path(*self.alph[let])
-        path.vertices *= list(scale)
-        path.vertices += list(offset)
-        patch = PathPatch(path, color=self.cmap[let])
+            y_offset += height
+    
+    def get_aa_patch(self, aminoacid, scale, offset):
+        path = Path(*self.alph[aminoacid])
+        path.vertices *= scale
+        path.vertices += offset
+        patch = PathPatch(path, color=self.cmap[aminoacid])
         return patch
+    
+    def plot_indelinfo(self, indelinfo):
+        self.ax.xaxis.set_visible(False)
+        indelinfo = indelinfo.round(decimals=2).T
+        self.ax.table(
+            cellText=indelinfo.values, 
+            rowLabels=indelinfo.index, 
+            colLabels=indelinfo.columns,
+        )
+        self.fig.tight_layout()
 
-    def read_json(self, path):
-        with open(path, 'r') as f:
-            obj = load(f)
-        return obj
+    def get_svg(self):
+        image = io.StringIO()
+        self.fig.savefig(image, format='svg', bbox_inches='tight')
+        image.seek(0)
+        image = "\n".join(image.readlines()[4:])
+        return image
 
-    def get_logofig(self, format='png'):
-        if format == 'svg':
-            logofig = StringIO()
-        elif format == 'png':
-            logofig = BytesIO()
-        self.fig.savefig(logofig, format=format)
-        logofig.seek(0)
-        if format == 'svg':
-            logofig = ''.join(logofig.readlines()[4:])
-        elif format == 'png':
-            logofig = b64encode(logofig.read()).decode()
-            logofig = f'<img alt="" src="data:image/png;base64,{logofig}">'
-        return logofig
+    def get_png(self):
+        image = io.BytesIO()
+        self.fig.savefig(image, format='png', bbox_inches='tight')
+        image.seek(0)
+        image = base64.b64encode(logofig.read()).decode()
+        return image

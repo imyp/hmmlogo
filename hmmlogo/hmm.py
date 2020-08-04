@@ -3,51 +3,81 @@
 from subprocess import run
 from io import BytesIO
 
-from requests import get
+import requests
 from pandas import read_csv 
-from .exceptions import InvalidAccessionError, ProgramMissingError
 
-class HiddenMarkovModel:
-    """Class for a profile Hidden Markov Model."""
-
+class HiddenMarkovModelLogo:
+    """
+    Contains logo information for a Hidden Markov Model as DataFrames. 
+    These can be found as the heights, and indelinfo attributes. When 
+    initializing the object it takes a PFAM accession ID.
+    """
     def __init__(self, accession):
         self.accession = accession
-        self.hmm = self.get_hmm(accession)
-        self.logo = self.get_logo(self.hmm)
-        self.logo_df = self.get_logo_df()
-
+        self.hmm = self.get_hmm(self.accession)
+        self.heights, self.indelinfo = self.get_hmmlogo(self.hmm)
 
     def get_hmm(self, accession):
-        url = f'https://pfam.xfam.org/family/{accession}/hmm'
-        response = get(url=url)
-        if not response.ok:
-            raise InvalidAccessionError(accession)
+        """
+        Return hidden Markov model from Pfam.
+        """
+        url = f"https://pfam.xfam.org/family/{accession}/hmm"
+        response = requests.get(url=url)
+        response.raise_for_status()
         hmm = response.content
         return hmm
-
     
-    def get_logo(self, hmm):
-        args = "hmmlogo --no_indel /dev/stdin".split()
-        try:
-            proc = run(args, input=hmm, capture_output=True)
-        except (FileNotFoundError):
-            raise ProgramMissingError(args)
-        logo = proc.stdout
-        return logo
-
+    def get_hmmlogo(self, hmm):
+        """
+        Return hidden Markov model logo from hidden Markov model.
+        """
+        arguments = ["hmmlogo", "/dev/stdin"]
+        process = run(arguments, input=hmm, capture_output=True)
+        heights, indelinfo = self.read_hmmlogo(process.stdout)
+        return heights, indelinfo
     
-    def get_logo_df(self):
-        logo = BytesIO(self.logo)
-        df = self.read_logo(logo)
+    def read_hmmlogo(self, hmmlogo_output):
+        """
+        Return heights and indelinfo from hidden Markov model logo.
+        """
+        column_names = ['profile']+list('ACDEFGHIKLMNPQRSTVWY-')
+        seperator = ':?\s+\(?\s?'
+        hmmlogo_df = read_csv(
+            BytesIO(hmmlogo_output),
+            index_col=0,
+            skiprows=2,
+            header=None,
+            sep=seperator,
+            names=column_names,
+            engine="python",
+        )
+        hmmlogo_df = hmmlogo_df.drop('-', axis='columns')
+        heights = self.clean_df(hmmlogo_df)
+        indelinfo = self.get_indelinfo(hmmlogo_df)
+        return heights, indelinfo
+    
+    def clean_df(self, df):
+        """
+        Remove nan columns and remaining rows containing nan values.
+        """
+        df = df.dropna(axis='columns', how='all')
+        df = df.dropna(axis='rows', how='any')
+        df = df.astype('float64')
+        df.index = df.index.astype('int64')
         return df
-
     
-    def read_logo(self, logo):
-        names = ['profile']+list('ACDEFGHIKLMNPQRSTVWY-')
-        sep = '\s+\(.*|:?\s+'
-        df = read_csv(logo, index_col=0, skiprows=2, header=None,
-                      sep=sep, engine='python', names=names)
-        df = df.dropna(axis='columns')
-        return df
-        
-
+    def get_indelinfo(self, hmmlogo_df):
+        """
+        Return indelinfo for hidden Markov model logo.
+        """
+        selection = hmmlogo_df['Y'].isna()
+        indelinfo = hmmlogo_df[selection].copy()
+        indelinfo = self.clean_df(indelinfo) 
+        indelinfo = indelinfo.rename(
+            columns=dict(
+                A='insert probability', 
+                C='average insert length', 
+                D='occupancy',
+            )
+        )
+        return indelinfo    

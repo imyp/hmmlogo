@@ -1,11 +1,21 @@
 # -*- coding: utf-8 -*-
 
-from .plot import LogoPlot
+"""
+hmmlogo.api
+~~~~~~~~~~~
 
-def logofig(accession, start=None, end=None):
-    hmmlogoplot = LogoPlot(accession, start=start, end=end)
-    hmmlogofig = hmmlogoplot.get_logofig()
-    return hmmlogofig
+This module implements the hmmlogo API.
 
+"""
 
+from . import plot
+from . import hmm
 
+def get_svg(accession, **kwargs):
+    logoplot = plot.LogoPlot(accession, **kwargs)
+    svg = logoplot.get_svg()
+    return svg
+
+def save_svg(accession, filename, **kwargs):
+    logoplot = plot.LogoPlot(accession, **kwargs)
+    logoplot.fig.savefig(filename, format='svg')
