@@ -8,3 +8,6 @@ commonmark
 recommonmark
 Sphinx==3.1.2
 readthedocs-sphinx-ext
+matplotlib
+pandas
+requests
