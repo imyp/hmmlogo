@@ -3,28 +3,32 @@
 Installation
 =======================
 
-In this section you learn how to install the hmmlogo package.
+HMMLogo can be installed either using pip or from source.
 
+.. note::
 
-Install using pip
+   In order to run HMMLogo, the `HMMER software suite
+   <http://hmmer.org>`_ needs to be installed on your system.
+
+Installing with pip
 ---------------------
 
-To install hmmlogo just use the following command::
+To install hmmlogo with pip, use the following command::
 
-  $ pip install hmmlogo
+  $ python -m pip install hmmlogo
 
 
-From source
------------
+Installing from source
+-----------------------
 
 The source code for hmmlogo can be found at its `GitHub repository <https://github.com/imyp/hmmlogo>`_.
 
-You can clone the public repository::
+Clone the public repository using git.::
 
-  $ git clone git://github.com/imyp/hmmlogo.git
+  $ git clone https://github.com/imyp/hmmlogo
 
-After downloading the source, you can install it in the following way::
+Change to the root directory and install using ``pip``.::
 
   $ cd hmmlogo
-  $ pip install .
+  $ python -m pip install .
 

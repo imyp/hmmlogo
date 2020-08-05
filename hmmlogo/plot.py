@@ -17,12 +17,28 @@ here = dirname(abspath(__file__))
 alph_path = join(here,'alph.json')
 cmap_path = join(here,'cmap.json')
 
+def add_path(fname, prefix=here):
+    return join(prefix, fname)
+
 class LogoPlot(HiddenMarkovModelLogo):
     """
-    Visualization of a profile hidden Markov model.
+    Class that creates figure of a profile hidden Markov model.
+
+    Parameters
+    ----------
+    accession : str
+        Pfam accession for desired HMM.
+    alph : str, optional 
+        Path to alphabet (defaults to alphabet located in library).
+    cmap : str, optional
+        Path to colormap (defaults to color map located in library).
     """
-    def __init__(self, accession, alph=alph_path, cmap=cmap_path):
+    def __init__(self, accession, alph=None, cmap=None):
         super().__init__(accession)
+        if alph==None:
+            alph = add_path('alph.json')
+        if cmap==None:
+            cmap = add_path('cmap.json')
         with open(alph, 'r') as f:
             self.alph = json.load(f)
         with open(cmap, 'r') as f:

@@ -15,5 +15,4 @@ Basic usage:
 
 from .hmm import HiddenMarkovModelLogo
 from .plot import LogoPlot
-
 from .api import get_svg, save_svg
